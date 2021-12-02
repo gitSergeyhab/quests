@@ -1,21 +1,38 @@
 import logo from 'assets/img/logo.svg';
+import { AppRoute } from 'const';
+import { useState } from 'react';
+import { useHistory } from 'react-router';
 import * as S from './header.styled';
 
 
-import axios from 'axios'
-import { createApi } from 'serveces/api';
+const HeaderName = {
+  Home: {name: 'Квесты', link: AppRoute.Home},
+  Beginner: {name: 'Новичкам', link: '#'},
+  Reviews: {name: 'Отзывы', link: '#'},
+  Events: {name: 'Акции', link: '#'},
+  Contacts: {name: 'Контакты', link: AppRoute.Contacts},
+};
 
-// axios.get('http://localhost:3001/quests').then(({data}) => console.log(data))
-// axios.get('http://localhost:3000').then(({data}) => console.log(data))
 
-const api = createApi();
-api.get('/quests').then(({data}) => console.log(data))
-
-
-// fetch('http://localhost:3001').then((r) => console.log(r.))
+const NawItem = ({item, page, onClick}) => {
+  return (
+    <S.LinkItem onClick={onClick}>
+      <S.Link $isActiveLink={item.name === page} to={item.link}>
+        {item.name}
+      </S.Link>
+    </S.LinkItem>
+  )
+};
 
 
 const Header = () => {
+
+  const history = useHistory();
+  const path = history.location.pathname;
+  const [page, setPage] = useState(path === AppRoute.Contacts ? HeaderName.Contacts.name : HeaderName.Home.name);
+
+  const navigation = Object.values(HeaderName).map((item) => <NawItem item={item} page={page} key={item.name} onClick={() => setPage(item.name)}/>);
+
   return (
   <S.StyledHeader>
     <S.HeaderWrapper>
@@ -27,27 +44,7 @@ const Header = () => {
 
       <S.Navigation>
         <S.Links>
-          <S.LinkItem>
-            <S.Link $isActiveLink to="/">
-              Квесты
-            </S.Link>
-          </S.LinkItem>
-
-          <S.LinkItem>
-            <S.Link to="#">Новичкам</S.Link>
-          </S.LinkItem>
-
-          <S.LinkItem>
-            <S.Link to="#">Отзывы</S.Link>
-          </S.LinkItem>
-
-          <S.LinkItem>
-            <S.Link to="#">Акции</S.Link>
-          </S.LinkItem>
-
-          <S.LinkItem>
-            <S.Link to="/contacts">Контакты</S.Link>
-          </S.LinkItem>
+          {navigation}
         </S.Links>
       </S.Navigation>
       <S.Phone href="tel:88003335599">8 (800) 333-55-99</S.Phone>

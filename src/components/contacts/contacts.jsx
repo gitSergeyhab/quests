@@ -1,11 +1,30 @@
+import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import { MainLayout, PageTitle, PageSubtext } from 'components/common/common';
-import contactsMap from 'assets/img/contacts-map.jpg';
 import * as S from './contacts.styled';
+
+
+const COORDINATES = [59.968137, 30.316982];
+const TITLE = 'ESCAPE ROOM';
+const ZOOM = 17;
+
+
+const TheMap = () => (
+  <YMaps>
+    <div >
+      <Map
+        defaultState={{ center: COORDINATES, zoom: ZOOM}}
+        style={{width: '649px', height: '336px'}}>
+          <Placemark geometry={COORDINATES} properties={{balloonContent: TITLE}} modules={['geoObject.addon.balloon']}/>
+        </Map>
+    </div>
+  </YMaps>
+);
 
 const Contacts = () => (
   <MainLayout>
     <S.Main>
       <S.ContentWrapper>
+
         <S.PageHeading>
           <PageTitle>Контакты</PageTitle>
           <PageSubtext>квесты в Санкт-Петербурге</PageSubtext>
@@ -41,12 +60,7 @@ const Contacts = () => (
           </S.ContactsList>
 
           <S.ContactsMap>
-            <S.ContactsMapImage
-              src={contactsMap}
-              alt="мы находимся по адресу Санкт-Петербург, Набережная реки Карповка, д 5"
-              width="649"
-              height="336"
-            />
+            <TheMap/>
           </S.ContactsMap>
         </S.Contacts>
       </S.ContentWrapper>

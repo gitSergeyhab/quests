@@ -4,25 +4,32 @@ import {
   Route,
   BrowserRouter as Router,
 } from 'components/common/common';
-import DetailedQuest from 'components/detailed-quest/detailed-quest';
-import Contacts from 'components/contacts/contacts';
-import Home from 'components/home/home';
-import { appTheme } from './common';
+
 import * as S from './app.styled';
+import Contacts from 'components/contacts/contacts';
+import DetailedQuest from 'components/detailed-quest/detailed-quest';
+import Home from 'components/home/home';
+import NotFoundPage from 'components/not-found-page/not-found-page';
+import { appTheme } from './common';
+import { AppRoute } from 'const';
+
 
 const App = () => (
   <ThemeProvider theme={appTheme}>
     <S.GlobalStyle />
     <Router>
       <Switch>
-        <Route exact path="/quest">
+        <Route exact path={AppRoute.Quest}>
           <DetailedQuest />
         </Route>
-        <Route exact path="/contacts">
+        <Route exact path={AppRoute.Contacts}>
           <Contacts />
         </Route>
-        <Route path="/">
+        <Route exact path={AppRoute.Home}>
           <Home />
+        </Route>
+        <Route>
+          <NotFoundPage/>
         </Route>
       </Switch>
     </Router>

@@ -1,11 +1,7 @@
-import {
-  MainLayout,
-  PageTitle,
-  PageHeading,
-  PageSubtext,
-} from 'components/common/common';
-import { QuestsCatalog } from './components/components';
 import * as S from './home.styled';
+import { MainLayout, PageTitle, PageHeading, PageSubtext } from 'components/common/common';
+import { QuestsCatalog } from './components/components';
+
 
 const HomePage = () => (
   <MainLayout>

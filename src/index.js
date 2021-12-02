@@ -6,7 +6,9 @@ import { rootReducer } from 'store/root-reducer';
 import {configureStore} from '@reduxjs/toolkit';
 import { createApi } from 'serveces/api';
 import { fetchQuestsAction } from 'store/api-actions';
-import { getDisplayQuests } from 'store/actions';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const api = createApi();
@@ -22,6 +24,7 @@ store.dispatch(fetchQuestsAction())
 
 render(
   <StrictMode>
+    <ToastContainer/>
     <Provider store={store}>
      <App />
     </Provider>
