@@ -27,7 +27,7 @@ export const checkOrder = ({name, phone, peopleCount}) => {
 
   if (!goodName) {toast.warning(ErrorMessage.Name)}
   if (!goodPhone) {toast.warning(ErrorMessage.Phone)}
-  if (!goodMember) {toast.warning(ErrorMessage.peopleCount)}
+  if (!goodMember) {toast.warning(ErrorMessage.PeopleCount)}
 
   return goodMember && goodName && goodPhone;
 };
