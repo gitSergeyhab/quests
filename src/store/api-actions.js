@@ -3,7 +3,9 @@ import { loadQuest, loadQuests, setQuestErrorStatus, setQuestsErrorStatus } from
 import { ErrorMessage } from "const";
 
 
-export const APIRoute = {
+const SUCCESS_MESSAGE = 'Заявка принята, мы перезвоним'
+
+const APIRoute = {
   Quests: '/quests',
   Orders: '/orders',
 };
@@ -38,6 +40,7 @@ export const postOrderAction = (name, phone, peopleCount, close) =>
     try {
       await api.post(APIRoute.Orders, {name, peopleCount, phone, isLegal: true});
       close();
+      toast.success(SUCCESS_MESSAGE)
     } catch (e) {
       toast.error(ErrorMessage.PostOrder);
     }

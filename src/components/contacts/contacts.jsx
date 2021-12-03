@@ -3,9 +3,11 @@ import { MainLayout, PageTitle, PageSubtext } from 'components/common/common';
 import * as S from './contacts.styled';
 
 
-const COORDINATES = [59.968137, 30.316982];
-const TITLE = 'ESCAPE ROOM';
+const COORDINATES = [59.96835, 30.3173];
+const TITLE = 'Escape Room';
 const ZOOM = 17;
+const PRESET = 'islands#blackStretchyIcon';
+const COLOR = 'black';
 
 
 const TheMap = () => (
@@ -14,17 +16,21 @@ const TheMap = () => (
       <Map
         defaultState={{ center: COORDINATES, zoom: ZOOM}}
         style={{width: '649px', height: '336px'}}>
-          <Placemark geometry={COORDINATES} properties={{balloonContent: TITLE}} modules={['geoObject.addon.balloon']}/>
+          <Placemark
+            geometry={COORDINATES}
+            properties={{iconContent: TITLE}}
+            options={{preset: PRESET, iconColor: COLOR}}
+          />
         </Map>
     </div>
   </YMaps>
 );
 
+
 const Contacts = () => (
   <MainLayout>
     <S.Main>
       <S.ContentWrapper>
-
         <S.PageHeading>
           <PageTitle>Контакты</PageTitle>
           <PageSubtext>квесты в Санкт-Петербурге</PageSubtext>

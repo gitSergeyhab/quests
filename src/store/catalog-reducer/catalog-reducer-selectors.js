@@ -1,7 +1,7 @@
 import { ReducerName } from 'store/root-reducer';
 
 
-const field = [ReducerName.Catalog];
+const field = ReducerName.Catalog;
 
 export const getGenre = (state) => state[field].genre;
 export const getQuests = (state) => state[field].quests;

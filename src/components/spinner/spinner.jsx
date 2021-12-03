@@ -7,12 +7,10 @@ const override = css`
   margin: 40px auto;
 `;
 
-const Spinner = () => {
-  return (
+const Spinner = () => (
   <div style={{paddingTop: '10%', textAlign: 'center', fontSize: '2.7em'}}>
-     ... Loading ...
-     <HashLoader size={150} css={override}  color='white'/>
-     </div>)
-}
+    ... Loading ...
+    <HashLoader size={150} css={override}  color='white'/>
+  </div>)
 
 export default Spinner;

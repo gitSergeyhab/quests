@@ -1,12 +1,13 @@
 import { StrictMode } from 'react';
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import { render } from 'react-dom';
+import { configureStore } from '@reduxjs/toolkit';
+import { ToastContainer } from 'react-toastify';
+
 import App from 'components/app/app';
 import { rootReducer } from 'store/root-reducer';
-import {configureStore} from '@reduxjs/toolkit';
 import { createApi } from 'serveces/api';
 import { fetchQuestsAction } from 'store/api-actions';
-import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 

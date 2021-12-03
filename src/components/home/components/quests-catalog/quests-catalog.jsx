@@ -1,44 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
 import { useEffect } from 'react';
 
 import * as S from './quests-catalog.styled';
 import Spinner from 'components/spinner/spinner';
 import NotFoundPage from 'components/not-found-page/not-found-page';
-import { ReactComponent as IconAllQuests } from 'assets/img/icon-all-quests.svg';
-import { ReactComponent as IconAdventures } from 'assets/img/icon-adventures.svg';
-import { ReactComponent as IconHorrors } from 'assets/img/icon-horrors.svg';
-import { ReactComponent as IconMystic } from 'assets/img/icon-mystic.svg';
-import { ReactComponent as IconDetective } from 'assets/img/icon-detective.svg';
-import { ReactComponent as IconScifi } from 'assets/img/icon-scifi.svg';
 import { ReactComponent as IconPerson } from 'assets/img/icon-person.svg';
 import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import { setDisplayQuests, setGenre, setQuestLoadedStatus } from 'store/actions';
 import { getDisplayQuests, getGenre, getQuestsErrorStatus, getQuestsLoadedStatus } from 'store/catalog-reducer/catalog-reducer-selectors';
-import { capitalize, showCount } from 'utils/utils';
+import { capitalize, getIconByGenre, showCount } from 'utils/utils';
 import { Genre, Level } from 'const';
 
 
 
+const PATH_QUEST = '/detailed-quest';
 
-const getIconByGenre = (genre) => {
-  switch(genre) {
-    case Genre.Adventures.server:
-      return IconAdventures;
-    case Genre.Detective.server:
-      return IconDetective;
-    case Genre.Horror.server:
-      return IconHorrors;
-    case Genre.Mystic.server:
-      return IconMystic;
-    case Genre.Scifi.server:
-      return IconScifi;
-    default: return IconAllQuests;
-  }
-};
-
-
-const PATH_QUEST = '/quest';
 
 const QuestItem = ({quest}) => {
 
@@ -46,20 +22,16 @@ const QuestItem = ({quest}) => {
 
   const displayCount = showCount(peopleCount);
 
-  const history = useHistory();
-
   const dispatch = useDispatch();
 
-  const handleQuestClick = () => {
-    dispatch(setQuestLoadedStatus(false));
-    history.push(`${PATH_QUEST}/${id}`);
-  };
+  const handleQuestClick = () => dispatch(setQuestLoadedStatus(false));
+
 
   return (
     <S.QuestItem
       onClick={handleQuestClick}
     >
-      <S.QuestItemLink to="/quest">
+      <S.QuestItemLink to={`${PATH_QUEST}/${id}`}>
         <S.Quest>
           <S.QuestImage
             src={previewImg}
@@ -94,23 +66,24 @@ const TabGenre = ({item}) => {
   const genre = useSelector(getGenre);
 
   const handleGenreClick = () => {
-    dispatch(setGenre(item.server));
+    dispatch(setGenre(item.Server));
     dispatch(setDisplayQuests());
   }
 
-  const GenreIcon = getIconByGenre(item.server);
+  const GenreIcon = getIconByGenre(item.Server);
 
   return (
   <S.TabItem>
-    <S.TabBtn isActive={genre === item.server}
+    <S.TabBtn isActive={genre === item.Server}
       onClick={handleGenreClick}
     >
       <GenreIcon />
       <S.TabTitle>
-        {item.title}
+        {item.Title}
       </S.TabTitle>
     </S.TabBtn>
   </S.TabItem>)};
+
 
 const QuestsCatalog = () => {
 
@@ -131,7 +104,7 @@ const QuestsCatalog = () => {
     return <Spinner/>
   }
 
-  const tabList = Object.values(Genre).map((genre) => <TabGenre item={genre} key={genre.server}/>);
+  const tabList = Object.values(Genre).map((genre) => <TabGenre item={genre} key={genre.Server}/>);
 
   const questList = quests.map((quest) => <QuestItem quest={quest} key={quest.id}/>);
 

@@ -1,4 +1,4 @@
-import { ReducerName } from '../root-reducer'
+import { ReducerName } from '../root-reducer';
 
 
 const field = ReducerName.Quest;

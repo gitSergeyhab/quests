@@ -10,7 +10,7 @@ import { checkOrder } from 'utils/utils';
 const CLASS_MODAL = 'CLASS_MODAL';
 
 
-const BookingModal = ({close}) => {
+const BookingModal = ({onClick}) => {
 
   const nameRef = useRef(null);
   const phoneRef = useRef(null);
@@ -21,7 +21,7 @@ const BookingModal = ({close}) => {
   const handleModalOffClick = (evt) => {
     const target = evt.target;
     if (target && !target.closest(`.${CLASS_MODAL}`)) {
-      close();
+      onClick();
     }
   }
 
@@ -38,7 +38,7 @@ const BookingModal = ({close}) => {
 
     if (name && phone && peopleCount) {
       if(checkOrder({name, phone, peopleCount})) {
-        dispatch(postOrderAction(name, phone, +peopleCount, close ));
+        dispatch(postOrderAction(name, phone, +peopleCount, onClick));
       }
     }
   }
@@ -49,7 +49,7 @@ const BookingModal = ({close}) => {
     className={CLASS_MODAL}
     >
       <S.ModalCloseBtn
-      onClick={close}
+      onClick={onClick}
       >
         <IconClose width="16" height="16" />
         <S.ModalCloseLabel>Закрыть окно</S.ModalCloseLabel>

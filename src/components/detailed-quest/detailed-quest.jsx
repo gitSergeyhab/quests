@@ -12,12 +12,14 @@ import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import { BookingModal } from './components/components';
 import { fetchQuestAction } from 'store/api-actions';
 import { getQuest, getQuestErrorStatus, getQuestLoadedStatus } from 'store/quest-reducer/quest-reducer-selectors';
-import { capitalize, showCount } from 'utils/utils';
-import { Genre, Level } from 'const';
+import { capitalize, getGenreByType, showCount } from 'utils/utils';
+import { Level } from 'const';
 
 
 const DetailedQuest = () => {
+
   const [isBookingModalOpened, setIsBookingModalOpened] = useState(false);
+
   const closeModal = () => setIsBookingModalOpened(false);
 
   const {id} = useParams();
@@ -59,7 +61,7 @@ const DetailedQuest = () => {
         <S.PageContentWrapper>
           <S.PageHeading>
             <S.PageTitle>{title}</S.PageTitle>
-            <S.PageSubtitle>{Genre[type]}</S.PageSubtitle>
+            <S.PageSubtitle>{getGenreByType(type)}</S.PageSubtitle>
           </S.PageHeading>
 
           <S.PageDescription>
@@ -88,7 +90,7 @@ const DetailedQuest = () => {
           </S.PageDescription>
         </S.PageContentWrapper>
 
-        {isBookingModalOpened && <BookingModal close={closeModal} />}
+        {isBookingModalOpened && <BookingModal onClick={closeModal} />}
       </S.Main>
     </MainLayout>
   );

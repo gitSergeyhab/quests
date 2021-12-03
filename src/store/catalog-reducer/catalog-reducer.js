@@ -8,7 +8,7 @@ import { Genre } from 'const';
 const initState = {
   quests: [],
   areQuestsLoaded: false,
-  genre: Genre.All.server,
+  genre: Genre.All.Server,
   displayQuests: [],
   error: false,
 };
@@ -22,4 +22,4 @@ export const catalogReducer = createReducer(initState, (builder) => {
     .addCase(setGenre, (state, action) => {state.genre = action.payload;})
     .addCase(setDisplayQuests, (state) => {state.displayQuests = filterQuests(state.quests, state.genre);})
     .addCase(setQuestsErrorStatus, (state, action) => {state.error = action.payload;});
-})
+});

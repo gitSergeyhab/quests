@@ -1,15 +1,15 @@
 export const Genre = {
-  All: {title: 'Все квесты', server: 'all'},
-  Adventures: {title: 'Приключения', server: 'adventures'},
-  Horror: {title: 'Ужасы', server: 'horror'},
-  Mystic: {title: 'Мистика', server: 'mystic'},
-  Detective: {title: 'Детектив', server: 'detective'},
-  Scifi: {title: 'Sci-fi', server: 'sci-fi'},
+  All: {Title: 'Все квесты', Server: 'all'},
+  Adventures: {Title: 'Приключения', Server: 'adventures'},
+  Horror: {Title: 'Ужасы', Server: 'horror'},
+  Mystic: {Title: 'Мистика', Server: 'mystic'},
+  Detective: {Title: 'Детектив', Server: 'detective'},
+  Scifi: {Title: 'Sci-fi', Server: 'sci-fi'},
 };
 
 export const AppRoute = {
   Home: '/',
-  Quest: '/quest/:id',
+  Quest: '/detailed-quest/:id',
   Contacts: '/contacts',
 };
 
