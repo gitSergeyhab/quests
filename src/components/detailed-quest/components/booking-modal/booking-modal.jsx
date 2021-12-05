@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import * as S from './booking-modal.styled';
 import { ReactComponent as IconClose } from 'assets/img/icon-close.svg';
-import { postOrderAction } from 'store/api-actions';
 import { checkOrder } from 'utils/utils';
+import { postOrder } from 'store/api-actions';
 
 
 const CLASS_MODAL = 'CLASS_MODAL';
@@ -38,7 +38,7 @@ const BookingModal = ({onClick}) => {
 
     if (name && phone && peopleCount) {
       if(checkOrder({name, phone, peopleCount})) {
-        dispatch(postOrderAction(name, phone, +peopleCount, onClick));
+        dispatch(postOrder({name, phone, peopleCount: +peopleCount, close: onClick}));
       }
     }
   }

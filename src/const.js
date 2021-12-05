@@ -27,3 +27,10 @@ export const ErrorMessage = {
   FetchQuest: 'Unable to load the quest',
   FetchQuests: 'Unable to load quests',
 };
+
+export const APIRoute = {
+  Quests: '/quests',
+  Orders: '/orders',
+};
+
+export const ERROR_RESPONSE = 'ERROR_RESPONSE';

@@ -10,9 +10,9 @@ import { ReactComponent as IconClock } from 'assets/img/icon-clock.svg';
 import { ReactComponent as IconPerson } from 'assets/img/icon-person.svg';
 import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import { BookingModal } from './components/components';
-import { fetchQuestAction } from 'store/api-actions';
-import { getQuest, getQuestErrorStatus, getQuestLoadedStatus } from 'store/quest-reducer/quest-reducer-selectors';
 import { capitalize, getGenreByType, showCount } from 'utils/utils';
+import { getQuest, getQuestError, getQuestLoading } from 'store/quest-reducer/quest-reducer-selectors';
+import { fetchOneQuest } from 'store/api-actions';
 import { Level } from 'const';
 
 
@@ -25,20 +25,21 @@ const DetailedQuest = () => {
   const {id} = useParams();
 
   const quest = useSelector(getQuest);
-  const isQuestLoaded = useSelector(getQuestLoadedStatus);
-  const error = useSelector(getQuestErrorStatus);
+  const loading = useSelector(getQuestLoading);
+  const error = useSelector(getQuestError);
+
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchQuestAction(id));
+    dispatch(fetchOneQuest(id));
   }, [dispatch, id]);
 
   if (error) {
     return <NotFoundPage/>
   }
 
-  if (!isQuestLoaded || !quest) {
+  if (loading || !quest) {
     return <Spinner/>
   }
 

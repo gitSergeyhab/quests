@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
-import { catalogReducer } from './catalog-reducer/catalog-reducer';
-import { quesReducer } from './quest-reducer/quest-reducer';
+import { catalogSlice } from './catalog-reducer/catalog-slice';
+import { questSlice } from './quest-reducer/quest-slice';
 
 
 export const ReducerName = {
-  Catalog: 'Catalog',
-  Quest: 'Quest'
+  Catalog: 'catalog',
+  Quest: 'quest'
 }
 
 export const rootReducer = combineReducers({
-  [ReducerName.Catalog] : catalogReducer,
-  [ReducerName.Quest] : quesReducer,
+  [ReducerName.Catalog] : catalogSlice.reducer,
+  [ReducerName.Quest] : questSlice.reducer,
 })
