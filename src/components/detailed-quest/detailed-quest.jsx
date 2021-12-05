@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { useParams } from 'react-router';
 
 import * as S from './detailed-quest.styled';
@@ -11,9 +10,8 @@ import { ReactComponent as IconPerson } from 'assets/img/icon-person.svg';
 import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import { BookingModal } from './components/components';
 import { capitalize, getGenreByType, showCount } from 'utils/utils';
-import { getQuest, getQuestError, getQuestLoading } from 'store/quest-reducer/quest-reducer-selectors';
-import { fetchOneQuest } from 'store/api-actions';
 import { Level } from 'const';
+import { useGetQuestQuery } from 'serveces/query-api';
 
 
 const DetailedQuest = () => {
@@ -24,28 +22,21 @@ const DetailedQuest = () => {
 
   const {id} = useParams();
 
-  const quest = useSelector(getQuest);
-  const loading = useSelector(getQuestLoading);
-  const error = useSelector(getQuestError);
+  const {data, isError, isLoading} = useGetQuestQuery(id)
 
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchOneQuest(id));
-  }, [dispatch, id]);
-
-  if (error) {
+  if (isError) {
     return <NotFoundPage/>
   }
 
-  if (loading || !quest) {
+  if (isLoading || !data) {
     return <Spinner/>
   }
 
-  const {title, description, coverImg, type, level, peopleCount, duration} = quest;
+  const {title, description, coverImg, type, level, peopleCount, duration} = data;
 
   const displayCount = showCount(peopleCount);
+
   const onBookingBtnClick = () => {
     setIsBookingModalOpened(true);
   };

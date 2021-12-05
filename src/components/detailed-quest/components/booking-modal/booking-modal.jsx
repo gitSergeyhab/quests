@@ -1,13 +1,16 @@
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import * as S from './booking-modal.styled';
 import { ReactComponent as IconClose } from 'assets/img/icon-close.svg';
 import { checkOrder } from 'utils/utils';
-import { postOrder } from 'store/api-actions';
+import { usePostOrderMutation } from 'serveces/query-api';
+import { ErrorMessage } from 'const';
 
 
 const CLASS_MODAL = 'CLASS_MODAL';
+const SUCCESS_MESSAGE = 'Заявка принята, мы перезвоним';
+const HTTP_SUCCESS_CODE = 201;
 
 
 const BookingModal = ({onClick}) => {
@@ -16,7 +19,7 @@ const BookingModal = ({onClick}) => {
   const phoneRef = useRef(null);
   const memberRef = useRef(null);
 
-  const dispatch = useDispatch();
+  const [postOrder] = usePostOrderMutation();
 
   const handleModalOffClick = (evt) => {
     const target = evt.target;
@@ -24,6 +27,7 @@ const BookingModal = ({onClick}) => {
       onClick();
     }
   }
+
 
   useEffect(() => {
     document.addEventListener('click', handleModalOffClick);
@@ -38,7 +42,16 @@ const BookingModal = ({onClick}) => {
 
     if (name && phone && peopleCount) {
       if(checkOrder({name, phone, peopleCount})) {
-        dispatch(postOrder({name, phone, peopleCount: +peopleCount, close: onClick}));
+        postOrder({name, phone, peopleCount: +peopleCount})
+          .then((response) => {
+            if (response.data !== HTTP_SUCCESS_CODE ) {
+              toast.error(ErrorMessage.PostOrder);
+              return;
+            }
+            toast.success(SUCCESS_MESSAGE);
+            onClick();
+          })
+          .catch(() => toast.error(ErrorMessage.PostOrder));
       }
     }
   }

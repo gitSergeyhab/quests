@@ -7,9 +7,10 @@ import { ReactComponent as IconPerson } from 'assets/img/icon-person.svg';
 import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import { setDisplayQuests, setGenre } from 'store/catalog-reducer/catalog-slice';
 import { capitalize, getIconByGenre, showCount } from 'utils/utils';
-import { getDisplayQuests, getGenre, getQuestsLoading, getQuestsError } from 'store/catalog-reducer/catalog-reducer-selectors';
-import { setQuestLoading } from 'store/quest-reducer/quest-slice';
+import { getDisplayQuests, getGenre } from 'store/catalog-reducer/catalog-reducer-selectors';
 import { Genre, Level } from 'const';
+import { useGetQuestsQuery } from 'serveces/query-api';
+import { useEffect } from 'react';
 
 
 const PATH_QUEST = '/detailed-quest';
@@ -21,14 +22,9 @@ const QuestItem = ({quest}) => {
 
   const displayCount = showCount(peopleCount);
 
-  const dispatch = useDispatch();
-
-  const handleQuestClick = () => dispatch(setQuestLoading(true));
 
   return (
-    <S.QuestItem
-      onClick={handleQuestClick}
-    >
+    <S.QuestItem>
       <S.QuestItemLink to={`${PATH_QUEST}/${id}`}>
         <S.Quest>
           <S.QuestImage
@@ -62,10 +58,11 @@ const TabGenre = ({item}) => {
 
   const dispatch = useDispatch();
   const genre = useSelector(getGenre);
+  const {data} = useGetQuestsQuery()
 
   const handleGenreClick = () => {
     dispatch(setGenre(item.Server));
-    dispatch(setDisplayQuests());
+    dispatch(setDisplayQuests(data));
   }
 
   const GenreIcon = getIconByGenre(item.Server);
@@ -85,16 +82,24 @@ const TabGenre = ({item}) => {
 
 const QuestsCatalog = () => {
 
-  const quests = useSelector(getDisplayQuests);
-  const loading = useSelector(getQuestsLoading);
-  const error = useSelector(getQuestsError);
+  const {data, isError, isLoading} = useGetQuestsQuery();
+
+  const dispatch = useDispatch();
+
+  const quests = useSelector(getDisplayQuests)
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setDisplayQuests(data))
+    }
+  }, [dispatch, data])
 
 
-  if (error) {
+  if (isError) {
     return <NotFoundPage/>
   }
 
-  if (loading) {
+  if (isLoading) {
     return <Spinner/>
   }
 

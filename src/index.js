@@ -5,22 +5,19 @@ import { configureStore } from '@reduxjs/toolkit';
 import { ToastContainer } from 'react-toastify';
 
 import App from 'components/app/app';
-import { rootReducer } from 'store/root-reducer';
-import { fetchQuests } from 'store/api-actions';
-import { createApi } from 'serveces/api';
+import { queryApi } from 'serveces/query-api';
+import { catalogSlice } from 'store/catalog-reducer/catalog-slice';
 
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const api = createApi();
-
 const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({thunk: {extraArgument: api}}),
+  reducer: {
+    [queryApi.reducerPath] : queryApi.reducer,
+    catalog: catalogSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(queryApi.middleware),
 });
-
-
-store.dispatch(fetchQuests());
 
 
 render(
