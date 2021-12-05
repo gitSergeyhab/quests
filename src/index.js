@@ -6,16 +6,15 @@ import { ToastContainer } from 'react-toastify';
 
 import App from 'components/app/app';
 import { queryApi } from 'serveces/query-api';
-import { catalogSlice } from 'store/catalog-reducer/catalog-slice';
+// import { catalogSlice } from 'store/catalog-reducer/catalog-slice';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { reducer } from 'store/reducer';
+
 
 
 const store = configureStore({
-  reducer: {
-    [queryApi.reducerPath] : queryApi.reducer,
-    catalog: catalogSlice.reducer,
-  },
+  reducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(queryApi.middleware),
 });
 

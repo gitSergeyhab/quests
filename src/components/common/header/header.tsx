@@ -6,29 +6,36 @@ import { AppRoute } from 'const';
 import * as S from './header.styled';
 
 
+const CLASS_ACTIVE_LINK = 'active-link'
+
+
 const HeaderName = {
   Home: {Name: 'Квесты', Link: AppRoute.Home},
   Beginner: {Name: 'Новичкам', Link: '#'},
   Reviews: {Name: 'Отзывы', Link: '#'},
   Events: {Name: 'Акции', Link: '#'},
   Contacts: {Name: 'Контакты', Link: AppRoute.Contacts},
-};
+} as const;
 
-
-const NawItem = ({item, page, onClick}) => (
+type NawItemType = {item: {Name: string, Link: string}, page: string, onClick: () => void}
+const NawItem = ({item, page, onClick} : NawItemType) => {
+  const classLink = item.Name === page ? CLASS_ACTIVE_LINK : '';
+  return (
     <S.LinkItem onClick={onClick}>
-      <S.Link $isActiveLink={item.Name === page} to={item.Link}>
+      <S.Link
+      className={classLink}
+      to={item.Link}>
         {item.Name}
       </S.Link>
     </S.LinkItem>
-  );
+  )};
 
 
 const Header = () => {
 
   const history = useHistory();
   const path = history.location.pathname;
-  const [page, setPage] = useState(path === AppRoute.Contacts ? HeaderName.Contacts.Name : HeaderName.Home.Name);
+  const [page, setPage] = useState<string>(path === AppRoute.Contacts ? HeaderName.Contacts.Name : HeaderName.Home.Name);
 
   const navigation = Object.values(HeaderName).map((item) => <NawItem item={item} page={page} key={item.Name} onClick={() => setPage(item.Name)}/>);
 

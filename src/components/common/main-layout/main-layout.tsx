@@ -1,6 +1,6 @@
 import { Header, Footer } from 'components/common/common';
 
-const MainLayout = ({ children }) => (
+const MainLayout = ({ children } : {children : any}) => (
   <>
     <Header />
     {children}

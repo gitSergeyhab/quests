@@ -9,7 +9,7 @@ import { ReactComponent as IconClock } from 'assets/img/icon-clock.svg';
 import { ReactComponent as IconPerson } from 'assets/img/icon-person.svg';
 import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import { BookingModal } from './components/components';
-import { capitalize, getGenreByType, showCount } from 'utils/utils';
+import { capitalize, getGenreByType, getLevel, showCount } from 'utils/utils';
 import { Level } from 'const';
 import { useGetQuestQuery } from 'serveces/query-api';
 
@@ -34,6 +34,8 @@ const DetailedQuest = () => {
   }
 
   const {title, description, coverImg, type, level, peopleCount, duration} = data;
+
+  const displayLevel = getLevel(level)
 
   const displayCount = showCount(peopleCount);
 
@@ -68,7 +70,7 @@ const DetailedQuest = () => {
               </S.FeaturesItem>
               <S.FeaturesItem>
                 <IconPuzzle width="24" height="24" />
-                <S.FeatureTitle>{Level[capitalize(level)]}</S.FeatureTitle>
+                <S.FeatureTitle>{displayLevel}</S.FeatureTitle>
               </S.FeaturesItem>
             </S.Features>
 

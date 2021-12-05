@@ -6,21 +6,27 @@ import NotFoundPage from 'components/not-found-page/not-found-page';
 import { ReactComponent as IconPerson } from 'assets/img/icon-person.svg';
 import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import { setDisplayQuests, setGenre } from 'store/catalog-reducer/catalog-slice';
-import { capitalize, getIconByGenre, showCount } from 'utils/utils';
+import { getIconByGenre, getLevel, showCount } from 'utils/utils';
 import { getDisplayQuests, getGenre } from 'store/catalog-reducer/catalog-reducer-selectors';
-import { Genre, Level } from 'const';
+import { Genre } from 'const';
 import { useGetQuestsQuery } from 'serveces/query-api';
 import { useEffect } from 'react';
+import { Quest } from 'types/types';
+
+import './quests-catalog.css';
 
 
+const CLASS_ACTIVE_TAB = 'active-tab';
 const PATH_QUEST = '/detailed-quest';
 
 
-const QuestItem = ({quest}) => {
+const QuestItem = ({quest} : {quest: Quest}) => {
 
   const {id, title, previewImg, level, peopleCount} = quest;
 
   const displayCount = showCount(peopleCount);
+
+  const displayLevel = getLevel(level)
 
 
   return (
@@ -44,7 +50,7 @@ const QuestItem = ({quest}) => {
               </S.QuestFeatureItem>
               <S.QuestFeatureItem>
                 <IconPuzzle />
-                {Level[capitalize(level)]}
+                {displayLevel}
               </S.QuestFeatureItem>
             </S.QuestFeatures>
           </S.QuestContent>
@@ -54,11 +60,11 @@ const QuestItem = ({quest}) => {
 )}
 
 
-const TabGenre = ({item}) => {
+const TabGenre = ({item} : {item : {Title: string, Server: string}}) => {
 
   const dispatch = useDispatch();
   const genre = useSelector(getGenre);
-  const {data} = useGetQuestsQuery()
+  const {data} = useGetQuestsQuery([])
 
   const handleGenreClick = () => {
     dispatch(setGenre(item.Server));
@@ -67,9 +73,12 @@ const TabGenre = ({item}) => {
 
   const GenreIcon = getIconByGenre(item.Server);
 
+  const btnClass = genre === item.Server ? CLASS_ACTIVE_TAB : '';
+
   return (
   <S.TabItem>
-    <S.TabBtn isActive={genre === item.Server}
+    <S.TabBtn
+      className={btnClass}
       onClick={handleGenreClick}
     >
       <GenreIcon />
@@ -82,7 +91,7 @@ const TabGenre = ({item}) => {
 
 const QuestsCatalog = () => {
 
-  const {data, isError, isLoading} = useGetQuestsQuery();
+  const {data, isError, isLoading} = useGetQuestsQuery([]);
 
   const dispatch = useDispatch();
 

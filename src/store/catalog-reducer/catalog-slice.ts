@@ -1,9 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Genre } from 'const';
 import { filterQuests } from 'utils/utils';
+import { Quest } from 'types/types';
 
 
-const initialState = {
+
+type InitialState = {
+  genre: string,
+  displayQuests: Quest[],
+};
+
+const initialState: InitialState = {
   genre: Genre.All.Server,
   displayQuests: [],
 };
