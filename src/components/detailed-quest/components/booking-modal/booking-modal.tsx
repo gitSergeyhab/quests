@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
 import * as S from './booking-modal.styled';
@@ -13,37 +13,36 @@ const SUCCESS_MESSAGE = 'Заявка принята, мы перезвоним'
 const HTTP_SUCCESS_CODE = 201;
 
 
-const BookingModal = ({onClick}) => {
+const BookingModal = ({onClick} : {onClick: () => void}) => {
 
-  const nameRef = useRef(null);
-  const phoneRef = useRef(null);
-  const memberRef = useRef(null);
+  const nameRef = useRef<HTMLInputElement | null>(null);
+  const phoneRef = useRef<HTMLInputElement | null>(null);
+  const memberRef = useRef<HTMLInputElement | null>(null);
 
   const [postOrder] = usePostOrderMutation();
 
-  const handleModalOffClick = (evt) => {
+  const handleModalOffClick = (evt: any) => {
     const target = evt.target;
     if (target && !target.closest(`.${CLASS_MODAL}`)) {
       onClick();
     }
   }
 
-
   useEffect(() => {
     document.addEventListener('click', handleModalOffClick);
     return function cleanup() {document.removeEventListener('click', handleModalOffClick)}
   })
 
-  const handleFormSubmit = (evt) => {
-    evt.preventDefault(evt);
-    const name = nameRef.current.value;
-    const phone = phoneRef.current.value;
-    const peopleCount = memberRef.current.value;
+  const handleFormSubmit = (evt: FormEvent) => {
+    evt.preventDefault();
+    const name = nameRef.current?.value;
+    const phone = phoneRef.current?.value;
+    const peopleCount = memberRef.current?.value;
 
     if (name && phone && peopleCount) {
       if(checkOrder({name, phone, peopleCount})) {
         postOrder({name, phone, peopleCount: +peopleCount})
-          .then((response) => {
+          .then((response: any) => {
             if (response.data !== HTTP_SUCCESS_CODE ) {
               toast.error(ErrorMessage.PostOrder);
               return;
@@ -111,7 +110,7 @@ const BookingModal = ({onClick}) => {
             ref={memberRef}
           />
         </S.BookingField>
-        <S.BookingSubmit type="submit">Отправить заявку</S.BookingSubmit>
+        <S.BookingSubmit >Отправить заявку</S.BookingSubmit>
         <S.BookingCheckboxWrapper>
           <S.BookingCheckboxInput
             type="checkbox"

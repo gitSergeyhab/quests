@@ -9,8 +9,7 @@ import { ReactComponent as IconClock } from 'assets/img/icon-clock.svg';
 import { ReactComponent as IconPerson } from 'assets/img/icon-person.svg';
 import { ReactComponent as IconPuzzle } from 'assets/img/icon-puzzle.svg';
 import { BookingModal } from './components/components';
-import { capitalize, getGenreByType, getLevel, showCount } from 'utils/utils';
-import { Level } from 'const';
+import { getGenreByType, getLevel, showCount } from 'utils/utils';
 import { useGetQuestQuery } from 'serveces/query-api';
 
 
@@ -20,7 +19,7 @@ const DetailedQuest = () => {
 
   const closeModal = () => setIsBookingModalOpened(false);
 
-  const {id} = useParams();
+  const {id}: {id: string} = useParams();
 
   const {data, isError, isLoading} = useGetQuestQuery(id)
 
@@ -39,7 +38,7 @@ const DetailedQuest = () => {
 
   const displayCount = showCount(peopleCount);
 
-  const onBookingBtnClick = () => {
+  const onBookingBtnClick: any = () => {
     setIsBookingModalOpened(true);
   };
 

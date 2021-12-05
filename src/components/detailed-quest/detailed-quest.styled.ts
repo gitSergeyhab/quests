@@ -107,7 +107,9 @@ const QuestDescription = styled.p`
   letter-spacing: 0.013em;
 `;
 
-const QuestBookingBtn = styled(Button).attrs({ type: 'button' })`
+type QuestBookingBtnProps = {onClick: () => void };
+
+const QuestBookingBtn = styled(Button).attrs({ type: 'button' })<QuestBookingBtnProps>`
   margin-left: 2px;
 `;
 

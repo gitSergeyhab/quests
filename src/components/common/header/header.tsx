@@ -6,8 +6,7 @@ import { AppRoute } from 'const';
 import * as S from './header.styled';
 
 
-const CLASS_ACTIVE_LINK = 'active-link'
-
+const ACTIVE_COLOR = '#F2890F';
 
 const HeaderName = {
   Home: {Name: 'Квесты', Link: AppRoute.Home},
@@ -17,13 +16,16 @@ const HeaderName = {
   Contacts: {Name: 'Контакты', Link: AppRoute.Contacts},
 } as const;
 
-type NawItemType = {item: {Name: string, Link: string}, page: string, onClick: () => void}
+type NawItemType = {item: {Name: string, Link: string}, page: string, onClick: () => void};
+
 const NawItem = ({item, page, onClick} : NawItemType) => {
-  const classLink = item.Name === page ? CLASS_ACTIVE_LINK : '';
+  const btnStyle = item.Name === page ? {color: ACTIVE_COLOR} : {};
   return (
-    <S.LinkItem onClick={onClick}>
+    <S.LinkItem
+    style={btnStyle}
+     onClick={onClick}>
       <S.Link
-      className={classLink}
+      style={btnStyle}
       to={item.Link}>
         {item.Name}
       </S.Link>
